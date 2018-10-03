@@ -2,6 +2,7 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
@@ -15,6 +16,8 @@ public class Controller {
     TextField textField1;
     @FXML
     TextField textField2;
+    @FXML
+    Canvas canvas;
 
     Model model = new Model();
 
