@@ -79,6 +79,7 @@ public class Controller {
         th.setDaemon(true);
         th.start();
 
+        //Register for events from task. Will run on gui thread
         task.setOnScheduled(event -> button2.setText("Started..."));
         task.setOnSucceeded(event -> button2.setText("Download complete"));
         task.setOnFailed(event -> button2.setText("Failed"));
