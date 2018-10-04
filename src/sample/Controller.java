@@ -80,8 +80,8 @@ public class Controller {
             @Override
             protected Image call() throws Exception {
                 Image image = new Image("https://img00.deviantart.net/547a/i/2010/267/7/5/duke_from_java_by_reallyn00b-d2zdiy7.png", false);
-                throw new Exception();
-
+                //throw new Exception();
+                return image;
             }
         };
 
@@ -107,8 +107,6 @@ public class Controller {
                 try {
                     List<String> list = Files.lines(Paths.get(url.toURI())).collect(Collectors.toList());
 
-                    //Ok to change model from other thread than gui-thread
-                    model.getChoiceOptions().addAll(list);
 
                     //Not ok to call methods on gui objects from other thread than gui-thread.
                     // button1.setDisable(true);
@@ -117,6 +115,7 @@ public class Controller {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
+                            model.getChoiceOptions().addAll(list);
                             button1.setDisable(true);
                         }
                     });
