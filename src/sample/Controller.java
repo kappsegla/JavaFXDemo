@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -15,6 +16,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -47,15 +56,65 @@ public class Controller {
 
     public void button2Action(ActionEvent actionEvent) {
         model.setText("Button two");
-
         //    Image image = new Image("https://img00.deviantart.net/547a/i/2010/267/7/5/duke_from_java_by_reallyn00b-d2zdiy7.png"
         //            ,true);
         //    imageView.setImage(image);
+        downloadWithTask();
+        //downloadWithRunnable();
+    }
 
+    private void downloadWithTask() {
+        Task<Image> task = new Task<Image>() {
+            @Override
+            protected Image call() throws Exception {
+                Image image = new Image("https://img00.deviantart.net/547a/i/2010/267/7/5/duke_from_java_by_reallyn00b-d2zdiy7.png", false);
+                throw new Exception();
 
+            }
+        };
 
+        imageView.imageProperty().bind(task.valueProperty());
 
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
 
+        task.setOnScheduled(event -> button2.setText("Started..."));
+        task.setOnSucceeded(event -> button2.setText("Download complete"));
+        task.setOnFailed(event -> button2.setText("Failed"));
+    }
+
+    private void downloadWithRunnable() {
+        //File read takes time. Run in own thread so gui doesn't block.
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL url = Controller.class.getResource("/alternatives.txt");
+
+                try {
+                    List<String> list = Files.lines(Paths.get(url.toURI())).collect(Collectors.toList());
+
+                    //Ok to change model from other thread than gui-thread
+                    model.getChoiceOptions().addAll(list);
+
+                    //Not ok to call methods on gui objects from other thread than gui-thread.
+                    // button1.setDisable(true);
+
+                    //Run on gui thread instead
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            button1.setDisable(true);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 
 
@@ -66,6 +125,8 @@ public class Controller {
         button2.disableProperty().bind(model.disabledProperty());
         model.getObservableList().addListener((ListChangeListener<Point2D>) c -> draw());
 
+        //    model.getChoiceOptions().addAll("Alt1", "Alt2", "Alt3");
+        choiceBox.setItems(model.getChoiceOptions());
 
     }
 
@@ -89,26 +150,4 @@ public class Controller {
         gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
-    private void download() {
-
-        //   Image image = new Image("https://img00.deviantart.net/547a/i/2010/267/7/5/duke_from_java_by_reallyn00b-d2zdiy7.png", true);
-
-        //   imageView.setImage(image);
-
-        Task<Image> task = new Task<Image>() {
-            @Override
-            protected Image call() throws Exception {
-                Image image = new Image("https://img00.deviantart.net/547a/i/2010/267/7/5/duke_from_java_by_reallyn00b-d2zdiy7.png", false);
-                return image;
-            }
-        };
-
-        imageView.imageProperty().bind(task.valueProperty());
-
-        Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
-
-        //task.setOnSucceeded(event -> button1.setDisable(true));
-    }
 }

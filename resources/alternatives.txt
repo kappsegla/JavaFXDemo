@@ -1,0 +1,6 @@
+Circle
+Square
+Rectangle
+Line
+Point
+Star
