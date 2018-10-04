@@ -20,6 +20,7 @@ public class Main extends Application {
 //        //Now we have access to getController() through the instance... don't forget the type cast
         controller = loader.getController();
         controller.init();
+        controller.setStage(primaryStage);
 
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));

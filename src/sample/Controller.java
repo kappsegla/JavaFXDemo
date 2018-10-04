@@ -16,7 +16,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -45,13 +48,22 @@ public class Controller {
 
     Model model = new Model();
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    Stage stage;
+
     public Controller() {
 
     }
 
     public void button1Action(ActionEvent actionEvent) {
-        model.setText("Button 1 was just pressed");
-        model.setDisabled(!model.isDisabled());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(stage);
+        //model.setText("Button 1 was just pressed");
+        //model.setDisabled(!model.isDisabled());
     }
 
     public void button2Action(ActionEvent actionEvent) {
