@@ -19,6 +19,9 @@ public class Model {
     private ObservableList<Point2D> observableList =
             FXCollections.observableList(points);
 
+    private ObservableList<String> choiceOptions =
+            FXCollections.observableList(new ArrayList<String>());
+
     public ObservableList<Point2D> getObservableList() {
         return observableList;
     }
@@ -54,5 +57,13 @@ public class Model {
 
     public StringProperty textProperty() {
         return text;
+    }
+
+    public ObservableList<String> getChoiceOptions() {
+        return choiceOptions;
+    }
+
+    public void setChoiceOptions(ObservableList<String> choiceOptions) {
+        this.choiceOptions = choiceOptions;
     }
 }

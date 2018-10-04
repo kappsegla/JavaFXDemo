@@ -8,6 +8,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,6 +31,9 @@ public class Controller {
     @FXML
     ImageView imageView;
 
+    @FXML
+    ChoiceBox choiceBox;
+
     Model model = new Model();
 
     public Controller() {
@@ -44,8 +48,14 @@ public class Controller {
     public void button2Action(ActionEvent actionEvent) {
         model.setText("Button two");
 
+        //    Image image = new Image("https://img00.deviantart.net/547a/i/2010/267/7/5/duke_from_java_by_reallyn00b-d2zdiy7.png"
+        //            ,true);
+        //    imageView.setImage(image);
 
-        //download();
+
+
+
+
     }
 
 
@@ -54,8 +64,9 @@ public class Controller {
         model.textProperty().bindBidirectional(textField1.textProperty());
         model.textProperty().bindBidirectional(textField2.textProperty());
         button2.disableProperty().bind(model.disabledProperty());
-
         model.getObservableList().addListener((ListChangeListener<Point2D>) c -> draw());
+
+
     }
 
     public void canvasClicked(MouseEvent event) {

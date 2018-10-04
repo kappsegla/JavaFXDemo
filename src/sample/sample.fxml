@@ -31,7 +31,7 @@
             <children>
                 <TextField fx:id="textField1"/>
                 <TextField fx:id="textField2"/>
-                <ChoiceBox prefHeight="31.0" prefWidth="305.0"/>
+                <ChoiceBox fx:id="choiceBox" prefHeight="31.0" prefWidth="305.0"/>
                 <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
                            preserveRatio="true"/>
             </children>
