@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.collections.ListChangeListener;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -8,6 +9,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -24,6 +27,8 @@ public class Controller {
     TextField textField2;
     @FXML
     Canvas canvas;
+    @FXML
+    ImageView imageView;
 
     Model model = new Model();
 
@@ -38,7 +43,11 @@ public class Controller {
 
     public void button2Action(ActionEvent actionEvent) {
         model.setText("Button two");
+
+
+        //download();
     }
+
 
     public void init() {
         //Make our bindings here, everything is loaded.
@@ -69,4 +78,26 @@ public class Controller {
         gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
+    private void download() {
+
+        //   Image image = new Image("https://img00.deviantart.net/547a/i/2010/267/7/5/duke_from_java_by_reallyn00b-d2zdiy7.png", true);
+
+        //   imageView.setImage(image);
+
+        Task<Image> task = new Task<Image>() {
+            @Override
+            protected Image call() throws Exception {
+                Image image = new Image("https://img00.deviantart.net/547a/i/2010/267/7/5/duke_from_java_by_reallyn00b-d2zdiy7.png", false);
+                return image;
+            }
+        };
+
+        imageView.imageProperty().bind(task.valueProperty());
+
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
+        //task.setOnSucceeded(event -> button1.setDisable(true));
+    }
 }
