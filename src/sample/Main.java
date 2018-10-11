@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 
@@ -19,8 +22,8 @@ public class Main extends Application {
         Parent root = loader.load();
 //        //Now we have access to getController() through the instance... don't forget the type cast
         controller = loader.getController();
-        controller.init();
         controller.setStage(primaryStage);
+        controller.init();
 
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));

@@ -129,7 +129,6 @@ public class Controller {
         thread.start();
     }
 
-
     public void init() {
         //Make our bindings here, everything is loaded.
         model.textProperty().bindBidirectional(textField1.textProperty());
@@ -154,6 +153,7 @@ public class Controller {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         Paint p = Color.RED;
+
         gc.setFill(p);
         for (Point2D point : model.getObservableList()) {
             gc.fillOval(point.getX() - 10, point.getY() - 10, 20, 20);
@@ -161,5 +161,4 @@ public class Controller {
         gc.setLineWidth(5.0);
         gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
-
 }
