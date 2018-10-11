@@ -20,7 +20,7 @@ public class Main extends Application {
 
         controller = loader.getController();
         controller.setStage(primaryStage);
-        controller.init();
+        //controller.init();  //Replaced by declaring initialize method in Controller class
 
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));

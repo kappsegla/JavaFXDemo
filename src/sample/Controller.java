@@ -129,7 +129,12 @@ public class Controller {
         thread.start();
     }
 
-    public void init() {
+    /**
+     * Initialization method that will be called after all @FXML
+     * fields have been set. Use this for Controller init.
+     * Was called init and manually called from Main before.
+     */
+    public void initialize() {
         //Make our bindings here, everything is loaded.
         model.textProperty().bindBidirectional(textField1.textProperty());
         model.textProperty().bindBidirectional(textField2.textProperty());
