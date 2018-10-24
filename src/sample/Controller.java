@@ -54,6 +54,7 @@ public class Controller {
 
     Stage stage;
 
+
     public Controller() {
 
     }
@@ -61,10 +62,29 @@ public class Controller {
     public void button1Action(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
-        File file = fileChooser.showOpenDialog(stage);
-        //model.setText("Button 1 was just pressed");
-        //model.setDisabled(!model.isDisabled());
+
+        String path = System.getProperty("user.home") + File.separator;
+        File initialDir = new File(path);
+        fileChooser.setInitialDirectory(initialDir);
+
+        FileChooser.ExtensionFilter filter =
+                new FileChooser.ExtensionFilter("PNG-image (*.png)", "*.png");
+        fileChooser.getExtensionFilters().add(filter);
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("SVG-image (*.svg)", "*.svg"));
+
+        File file = fileChooser.showSaveDialog(canvas.getScene().getWindow());
+
+        if (file.getName().endsWith(".png")) {
+            new SavePngStrategy().save(null, file);
+        } else if (file.getName().endsWith(".svg")) {
+            new SaveSvgStrategy().save(null, file);
+        }
+
+
+
     }
+
 
     public void button2Action(ActionEvent actionEvent) {
         model.setText("Button two");
@@ -163,7 +183,8 @@ public class Controller {
         for (Point2D point : model.getObservableList()) {
             gc.fillOval(point.getX() - 10, point.getY() - 10, 20, 20);
         }
-        gc.setLineWidth(5.0);
+        gc.setLineDashes(2.0, 20.0);
+        gc.setLineWidth(2.0);
         gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 }
